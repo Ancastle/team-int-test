@@ -33,9 +33,10 @@ function extractValuesForKey(object, searchKey) {
     if (isObjectInstanceValue) {
       // Adding case for if searchKey instance's value is an object
       if (isAMatch) {
-        const newMapDir = `${instanceKey}`
-          .replace(`/${searchKey}`, "")
-          .replace(`${searchKey}`, "");
+        const newMapDir = instanceKey.substring(
+          0,
+          instanceKey.length - (searchKeyLength + 1)
+        );
         map.set(newMapDir, instanceValue);
       }
       const levelName = objectEntries[0][0];
