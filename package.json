@@ -1,0 +1,16 @@
+{
+  "name": "team-international",
+  "version": "1.0.0",
+  "description": "",
+  "main": "task1.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "-": "0.0.1",
+    "jest": "^27.5.1",
+    "save-dev": "0.0.1-security"
+  }
+}
