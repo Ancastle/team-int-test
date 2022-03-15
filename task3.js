@@ -8,15 +8,20 @@ function extractValuesForKey(object, searchKey) {
     let instanceKey = instance[0];
     let instanceValue = instance[1];
     let isObjectInstanceValue = typeof instanceValue === "object";
-    let isAMatch = instanceKey.includes(searchKey);
+    let searchKeyLength = searchKey.length;
+    let lastCharacters = instanceKey.slice(
+      instanceKey.length - searchKeyLength
+    );
+    let isAMatch = lastCharacters === searchKey;
     // Case 1 : Instance value is not an object
     if (!isObjectInstanceValue) {
       // Case 1.1 : Instance key matches
       if (isAMatch) {
         // Create new directory name
-        const newMapDir = `${instanceKey}`
-          .replace(`/${searchKey}`, "")
-          .replace(`${searchKey}`, "");
+        const newMapDir = instanceKey.substring(
+          0,
+          instanceKey.length - (searchKeyLength + 1)
+        );
         map.set(newMapDir, instanceValue);
         objectEntries.shift();
         // Case 1.2 : Instance key doesn't match
@@ -26,6 +31,13 @@ function extractValuesForKey(object, searchKey) {
     }
     // Case 2 : Instance value is an object, add all sub instances to the array
     if (isObjectInstanceValue) {
+      // Adding case for if searchKey instance's value is an object
+      if (isAMatch) {
+        const newMapDir = `${instanceKey}`
+          .replace(`/${searchKey}`, "")
+          .replace(`${searchKey}`, "");
+        map.set(newMapDir, instanceValue);
+      }
       const levelName = objectEntries[0][0];
       const newEntries = Object.entries(objectEntries[0][1]);
       objectEntries.shift();
@@ -38,5 +50,4 @@ function extractValuesForKey(object, searchKey) {
   }
   return map;
 }
-
 module.exports = extractValuesForKey;
